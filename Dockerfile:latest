@@ -1,5 +1,5 @@
 # Base image with JDK
-FROM openjdk:11-jdk-slim
+FROM openjdk:11-jdk-slim AS build
 
 
 # Set working directory
@@ -24,4 +24,3 @@ EXPOSE 8080
 
 # Start the app using embedded Tomcat
 CMD ["java", "-jar", "webapp-runner.jar", "onlinebookstore.war"]
-
