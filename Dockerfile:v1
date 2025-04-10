@@ -1,0 +1,27 @@
+# Base image with JDK
+FROM openjdk:11-jdk-slim
+
+
+# Set working directory
+WORKDIR /app
+
+# Copy Maven build files first (leverage cache)
+COPY pom.xml ./
+COPY src ./src
+COPY WebContent ./WebContent
+
+# Install Maven & build the project
+RUN  apt-get update && apt-get install -y maven \
+&& mvn clean package \
+&& mv target/dependency/webapp-runner.jar webapp-runner.jar \
+&& apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Copy the built WAR file
+RUN cp target/onlinebookstore.war ./onlinebookstore.war
+
+# Expose the webapp-runner port
+EXPOSE 8080
+
+# Start the app using embedded Tomcat
+CMD ["java", "-jar", "webapp-runner.jar", "onlinebookstore.war"]
+
