@@ -44,7 +44,7 @@ jobs:
     # Step 5: Run application tests
     - name: Run tests
       run: |
-        docker logs onlinebookstore-app
+        docker logs onlinebookstore_app
         # Add your test commands here, e.g., curl or integration tests
 
     # Step 6: Tear down Docker Compose
